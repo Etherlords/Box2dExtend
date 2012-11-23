@@ -18,6 +18,8 @@ package core.Box2D.scene
 		protected var gameObjectsInstance:DisplayObjectContainer;
 		protected var gravity:Point = new Point(0, 0);
 		
+	
+		
 		public function BaseBox2DScene() 
 		{
 			super();
@@ -42,12 +44,20 @@ package core.Box2D.scene
 			PhysicWorldLocator.instance.world = worldController.world;
 		}
 		
-		protected function gameStep(e:Object = null):void
+		public function gameStep(e:Number):void
 		{
 			if (isGameInProgress)
 			{
-				worldController.gameStep();
+				worldController.gameStep(e);
 			}
+		}
+		
+		public function get step():Number 
+		{
+			if (!worldController)
+				return 0;
+				
+			return worldController.steps;
 		}
 		
 	}

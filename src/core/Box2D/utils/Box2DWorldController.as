@@ -23,6 +23,8 @@ import utils.GlobalUIContext;
 	 */
 	public class Box2DWorldController 
 	{
+		public var steps:Number = 0;
+		
 		private var gravity:Point;
 		private var debugInstance:DisplayObjectContainer;
 		private var isDebug:Boolean;
@@ -96,7 +98,7 @@ import utils.GlobalUIContext;
 		 * Вызывает следующий степ в физическом движке, а так же вызвает 
 		 * preRender, render, drawDebugData
 		 */
-		public function gameStep():void
+		public function gameStep(e:Number = 1):void
 		{
 			var interestObject:GameObject;
 			for each (interestObject in _gameObjectsRegistry.objectsList) 
@@ -104,8 +106,12 @@ import utils.GlobalUIContext;
                 interestObject.preRender(0.025 * 1000); //todo calc correctly
             }
 			
-			world.Step(0.036, 1, 1);
-			world.ClearForces();
+			for (var i:int = 0; i < e; i++)
+			{
+				world.Step(0.036, 1, 1);
+				world.ClearForces();
+				steps++;
+			}
 			
 			if(isDebug)
 				debugDraw.render();
